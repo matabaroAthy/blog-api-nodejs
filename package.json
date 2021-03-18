@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "start": "nodemon --exec babel-node index.js"
   },
   "repository": {
     "type": "git",
@@ -24,18 +25,27 @@
   },
   "homepage": "https://github.com/matabaroAthy/blog-api-nodejs#readme",
   "dependencies": {
+    "@babel/node": "^7.13.10",
+    "babel-node": "^0.0.1-security",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jest": "^26.6.3",
+    "joi": "^17.4.0",
+    "mysql2": "^2.2.5"
+  },
+  "devDependencies": {
     "@babel/cli": "^7.13.10",
     "@babel/core": "^7.13.10",
     "@babel/preset-env": "^7.13.10",
     "@babel/register": "^7.13.8",
-    "bcrypt": "^5.0.1",
     "eslint": "^7.22.0",
+    "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-eslint": "^7.0.0",
     "eslint-config-prettier": "^8.1.0",
-    "express": "^4.17.1",
-    "jest": "^26.6.3",
-    "joi": "^17.4.0",
-    "mysql2": "^2.2.5",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
     "sequelize": "^6.5.1"

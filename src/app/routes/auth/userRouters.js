@@ -1,10 +1,12 @@
 /* eslint-disable linebreak-style */
 import { Router } from 'express';
-import checkUsername from '../../middleware/verifysignup';
+import validator from '../../middleware/validator';
 import UserController from '../../modules/authController';
+import asyncHandler from '../../middleware/asyncHandler';
 
 const authRoutes = Router();
 
-authRoutes.post('/auth/signup', checkUsername, UserController.signup);
+authRoutes.post('/auth/signup', validator.signup, UserController.signup);
+authRoutes.post('/auth/signin', validator.signin, UserController.signin);
 
 export default authRoutes;

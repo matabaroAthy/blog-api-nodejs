@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
 
@@ -9,9 +10,8 @@ class Token {
 
   static createToken(
     data = {},
-    expireIn = { expireIn: '86400' },
   ) {
-    const token = jwt.sign({ data }, process.env.SECRET_KEY, expireIn);
+    const token = jwt.sign({ data }, process.env.SECRET_KEY);
     return token;
   }
 }

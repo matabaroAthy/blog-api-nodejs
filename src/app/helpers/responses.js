@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 class GenericHandler {
   static success(res, data, code, message) {
     return res.status(code).json({

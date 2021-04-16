@@ -1,28 +1,31 @@
+/* eslint-disable max-len */
+/* eslint-disable import/no-duplicates */
 /* eslint-disable linebreak-style */
 import Password from '../helpers/password';
 import UserServices from '../../database/acid/services/userServices';
 import GenericHandler from '../helpers/responses';
 import jwt from '../helpers/jwt';
+import allStatus from '../helpers/statusKeys';
+import state from '../helpers/messageCode';
 
 class UserController {
   static async signup(req, res) {
-    const checkEmail = req.body.email;
-    const checkUser = req.body.username;
-    const emailUsed = await UserServices.findEmail(checkEmail);
-    const usernUsed = await UserServices.findUsername(checkUser);
+    const { email, username, password } = req.body;
+
+    const emailUsed = await UserServices.findEmail(email);
+    const usernUsed = await UserServices.findUsername(username);
 
     if (emailUsed) {
-      const resp = GenericHandler.error(res, 409, 'email already used');
-      console.log(resp);
+      const resp = GenericHandler.error(res, allStatus.CONFLICT_RESPONSE_CODE, state.CONFLICT_EMAIL);
+
       return resp;
     }
     if (usernUsed) {
-      const resp = GenericHandler.error(res, 409, 'username exist already');
-      console.log(resp);
+      const resp = GenericHandler.error(res, allStatus.CONFLICT_RESPONSE_CODE, state.CONFLICT_USERNAME);
+
       return resp;
     }
 
-    const { email, username, password } = req.body;
     const hashPassword = Password.hashPassword(req.body.password);
     const authData = {
       email,
@@ -31,17 +34,14 @@ class UserController {
     };
     const result = await UserServices.create(authData);
 
-    const uID = req.body.username;
-    const getId = await UserServices.findUserid(uID);
-
-    const { id } = getId;
+    const { id } = result;
     const token = jwt.createToken(id);
     if (!result) {
-      return GenericHandler.error(res, 500, 'incorrect method');
+      return GenericHandler.error(res, allStatus.CODE_INTERNAL_SERVER_ERROR, state.SERVER_ERROR);
     }
     return GenericHandler.success(res, {
       id, email, username, token,
-    }, 201, 'user succesfuly registed');
+    }, allStatus.CREATED_CODE, state.CREATED_MESSAGE);
   }
 
   static async signin(req, res) {
@@ -50,8 +50,8 @@ class UserController {
     const getUser = await UserServices.signinUser(checkUser);
 
     if (!getUser) {
-      const resp = GenericHandler.error(res, 404, 'user does not exist');
-      console.log(resp);
+      const resp = GenericHandler.error(res, allStatus.NOT_FOUND_CODE, state.NOT_FOUND_USER);
+
       return resp;
     }
 
@@ -61,10 +61,10 @@ class UserController {
     );
 
     if (!getUser || !realPass) {
-      GenericHandler.error(res, 404, 'incorrect credentials');
+      GenericHandler.error(res, allStatus.NOT_FOUND_CODE, state.NOT_FOUND_CREDINTIALS);
     }
     const token = jwt.createToken(getUser.id);
-    return GenericHandler.success(res, { username: getUser.username, token }, 200, 'successfuly loggedin');
+    return GenericHandler.success(res, { username: getUser.username, token }, allStatus.SUCCESSFUL_CODE, state.SUCCESS_LOG);
   }
 }
 

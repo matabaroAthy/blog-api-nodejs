@@ -28,14 +28,6 @@ class UserServices {
     return result;
   }
 
-  static async findUserid(checkUser) {
-    const result = await db.User.findOne({
-      where: { username: checkUser },
-    });
-
-    return result;
-  }
-
   static async signinUser(user) {
     const result = await db.User.findOne({ where: { username: user } });
     return result;

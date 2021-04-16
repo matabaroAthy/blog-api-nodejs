@@ -1,21 +1,23 @@
 /* eslint-disable linebreak-style */
 import GenericHandler from '../helpers/responses';
 import authRoutes from './auth/userRouters';
+import allStatus from '../helpers/statusKeys';
+import state from '../helpers/messageCode';
 
-const apiVersion = '/api/v1';
+const apiVersion = process.env.API_VERSION;
 
 class mySroute {
   static run(app) {
     app.use(apiVersion, authRoutes);
     app.get(apiVersion, (req, res) => {
-      GenericHandler.correct(res, 200, 'welcome to express api');
+      GenericHandler.correct(res, allStatus.SUCCESSFUL_CODE, state.SUCCESS_RUN);
     });
     app.all('/', (req, res) => {
-      GenericHandler.correct(res, 401, 'unsolvable method');
+      GenericHandler.correct(res, allStatus.NOT_FOUND_CODE, state.NOT_FOUND_METHOD);
     });
 
     app.use('*', (req, res) => {
-      GenericHandler.correct(res, 404, 'unable to find requested route');
+      GenericHandler.correct(res, allStatus.NOT_FOUND_CODE, state.NOT_FOUND_REQ);
     });
   }
 }

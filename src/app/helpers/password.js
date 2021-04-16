@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import bcrypt from 'bcrypt';
 
 class Password {
@@ -5,7 +6,7 @@ class Password {
     return bcrypt.hashSync(validate, bcrypt.genSaltSync(8));
   }
 
-  static passComp(validate, dataValid) {
+  static passCompare(validate, dataValid) {
     return bcrypt.compareSync(validate, dataValid);
   }
 }

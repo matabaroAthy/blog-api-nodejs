@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import fs from 'fs';
 import path from 'path';
 import Sequelize from 'sequelize';

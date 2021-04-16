@@ -1,13 +1,31 @@
-import joi from 'joi';
-import schema from '../../schema';
+/* eslint-disable linebreak-style */
+import schema from '../helpers/schema';
+import GenericHandler from '../helpers/responses';
 
-const signupValidator = (req, res, next) => {
-  try {
-    joi.assert(req.body, schema);
-  } catch (err) {
-    return res.status(400).json({ err: err.details[0].message });
+class Validator {
+  static async signup(req, res, next) {
+    const value = await schema.signup.validate(req.body);
+    if (!value.error) {
+      return next();
+    }
+    GenericHandler.error(res, 402, value.error.message);
   }
-  next();
-  return signupValidator;
-};
-export default signupValidator;
+
+  static async signin(req, res, next) {
+    const value = await schema.signin.validate(req.body);
+    if (!value.error) {
+      return next();
+    }
+    GenericHandler.error(res, 402, value.error.message);
+  }
+
+  static async startBlog(req, res, next) {
+    const value = await schema.createBlog.validate(req.body);
+    if (!value.error) {
+      return next();
+    }
+    GenericHandler.error(res, 402, value.error.message);
+  }
+}
+
+export default Validator;

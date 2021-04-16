@@ -1,34 +1,32 @@
+/* eslint-disable linebreak-style */
 module.exports = {
-  up: (queryInterface, DataTypes) => queryInterface.createTable('user', {
-    userId: {
-      allowNull: false,
+  up: (queryInterface, Sequelize) => queryInterface.createTable('user', {
+    id: {
       autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER,
-    },
-    email: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: false,
+      type: Sequelize.INTEGER,
     },
     username: {
-      type: DataTypes.STRING,
-      unique: true,
+      type: Sequelize.STRING,
       allowNull: false,
+      unique: true,
+    },
+    email: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: true,
     },
     password: {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     createdAt: {
-      type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW,
+      type: Sequelize.DATE,
     },
     updatedAt: {
-      type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW,
+      type: Sequelize.DATE,
     },
   }),
   down: (queryInterface) => queryInterface.dropTable('user'),

@@ -1,6 +1,8 @@
+/* eslint-disable consistent-return */
 /* eslint-disable linebreak-style */
 import schema from '../helpers/schema';
 import GenericHandler from '../helpers/responses';
+import allStatus from '../helpers/statusKeys';
 
 class Validator {
   static async signup(req, res, next) {
@@ -8,7 +10,7 @@ class Validator {
     if (!value.error) {
       return next();
     }
-    GenericHandler.error(res, 402, value.error.message);
+    GenericHandler.error(res, allStatus.NOT_FOUND_CODE, value.error.message);
   }
 
   static async signin(req, res, next) {
@@ -16,7 +18,7 @@ class Validator {
     if (!value.error) {
       return next();
     }
-    GenericHandler.error(res, 402, value.error.message);
+    GenericHandler.error(res, allStatus.NOT_FOUND_CODE, value.error.message);
   }
 
   static async startBlog(req, res, next) {
@@ -24,7 +26,7 @@ class Validator {
     if (!value.error) {
       return next();
     }
-    GenericHandler.error(res, 402, value.error.message);
+    GenericHandler.error(res, allStatus.NOT_FOUND_CODE, value.error.message);
   }
 }
 

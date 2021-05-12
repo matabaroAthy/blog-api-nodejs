@@ -6,6 +6,7 @@ const allStatus = {
   UNAUTHORIZED_CLIENT_ERROR: 401,
   CONFLICT_RESPONSE_CODE: 409,
   CREATED_CODE: 201,
+  ACCESS_FOEBIDEN: 403,
 };
 
 export default allStatus;

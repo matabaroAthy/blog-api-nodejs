@@ -2,7 +2,6 @@
 import { Router } from 'express';
 import validator from '../../middleware/validator';
 import UserController from '../../modules/authController';
-import asyncHandler from '../../middleware/asyncHandler';
 
 const authRoutes = Router();
 

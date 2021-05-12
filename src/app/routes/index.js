@@ -3,12 +3,13 @@ import GenericHandler from '../helpers/responses';
 import authRoutes from './auth/userRouters';
 import allStatus from '../helpers/statusKeys';
 import state from '../helpers/messageCode';
+import postRoutes from './blog/postRouters';
 
 const apiVersion = process.env.API_VERSION;
 
 class mySroute {
   static run(app) {
-    app.use(apiVersion, authRoutes);
+    app.use(apiVersion, authRoutes, postRoutes);
     app.get(apiVersion, (req, res) => {
       GenericHandler.correct(res, allStatus.SUCCESSFUL_CODE, state.SUCCESS_RUN);
     });

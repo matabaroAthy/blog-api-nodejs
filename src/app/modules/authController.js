@@ -4,7 +4,7 @@
 import Password from '../helpers/password';
 import UserServices from '../../database/acid/services/userServices';
 import GenericHandler from '../helpers/responses';
-import jwt from '../helpers/jwt';
+import JwtAuth from '../helpers/jwt';
 import allStatus from '../helpers/statusKeys';
 import state from '../helpers/messageCode';
 
@@ -35,7 +35,7 @@ class UserController {
     const result = await UserServices.create(authData);
 
     const { id } = result;
-    const token = jwt.createToken(id);
+    const token = await JwtAuth.signAccessToken(id);
     if (!result) {
       return GenericHandler.error(res, allStatus.CODE_INTERNAL_SERVER_ERROR, state.SERVER_ERROR);
     }
@@ -46,8 +46,7 @@ class UserController {
 
   static async signin(req, res) {
     const { username, password } = req.body;
-    const checkUser = req.body.username;
-    const getUser = await UserServices.signinUser(checkUser);
+    const getUser = await UserServices.signinUser(username);
 
     if (!getUser) {
       const resp = GenericHandler.error(res, allStatus.NOT_FOUND_CODE, state.NOT_FOUND_USER);
@@ -63,7 +62,7 @@ class UserController {
     if (!getUser || !realPass) {
       GenericHandler.error(res, allStatus.NOT_FOUND_CODE, state.NOT_FOUND_CREDINTIALS);
     }
-    const token = jwt.createToken(getUser.id);
+    const token = await JwtAuth.signAccessToken(getUser.id);
     return GenericHandler.success(res, { username: getUser.username, token }, allStatus.SUCCESSFUL_CODE, state.SUCCESS_LOG);
   }
 }
